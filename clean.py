@@ -69,6 +69,10 @@ class AudioVisualizer:
         self.stop_button = ttk.Button(self.control_frame, text="Detener", command=self.stop_stream)
         self.stop_button.pack(side=tk.LEFT, padx=5, pady=5)
 
+        # Agregar botón de pantalla completa
+        self.fullscreen_button = ttk.Button(self.control_frame, text="Pantalla Completa", command=self.toggle_fullscreen)
+        self.fullscreen_button.pack(side=tk.LEFT, padx=5, pady=5)
+
         # Barra de nivel de audio
         self.level_canvas = tk.Canvas(self.control_frame, width=200, height=20, bg='white')
         self.level_canvas.pack(side=tk.RIGHT, padx=5, pady=5)
@@ -191,6 +195,14 @@ class AudioVisualizer:
         self.stop_stream()
         self.p.terminate()
         self.master.destroy()
+
+    def toggle_fullscreen(self):
+        is_fullscreen = self.master.attributes('-fullscreen')
+        self.master.attributes('-fullscreen', not is_fullscreen)
+        
+        # Opcional: Permitir salir de pantalla completa con la tecla Escape
+        if not is_fullscreen:
+            self.master.bind('<Escape>', lambda e: self.master.attributes('-fullscreen', False))
 
 if __name__ == "__main__":
     root = tk.Tk()
